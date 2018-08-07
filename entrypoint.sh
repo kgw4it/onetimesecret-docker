@@ -2,6 +2,10 @@
 
 # NOTE: sed -i doesn't work when configs are mount points
 
+OTS_HOSTNAME=${OTS_HOSTNAME:-"localhost:7143"}
+OTS_DOMAIN=${OTS_DOMAIN:-"localhost"}
+OTS_USE_SSL=${OTS_USE_SSL:-"false"}
+
 # set OTS secret if supplied by ENV or if default
 if [[ -n ${OTS_SECRET+x} ]]; then
   echo "Setting OTS secret to $OTS_SECRET"
@@ -32,6 +36,10 @@ if [[ -n ${OTS_NAME+x} ]]; then
   sed -i.bak "s/Delano/$OTS_NAME/" /var/lib/onetime/templates/email/password_request.mustache
   sed -i.bak "s/Delano/$OTS_NAME/" /var/lib/onetime/templates/email/welcome.mustache
 fi
+
+sed -i "s/__HOSTNAME__/$OTS_HOSTNAME/" /etc/onetime/config
+sed -i "s/__DOMAIN__/$OTS_DOMAIN/" /etc/onetime/config
+sed -i "s/__USE_SSL__/$OTS_USE_SSL/" /etc/onetime/config
 
 redis-server /etc/onetime/redis.conf
 cd /var/lib/onetime && bundle exec thin -e dev -R config.ru -p 7143 start
