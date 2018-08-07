@@ -30,7 +30,7 @@ USER ots
 
 # Download and install latest OTS
 RUN set -ex && \
-  curl https://codeload.github.com/onetimesecret/onetimesecret/legacy.tar.gz/master -o /tmp/ots.tar.gz && \
+  curl https://codeload.github.com/kgw4it/onetimesecret/legacy.tar.gz/master -o /tmp/ots.tar.gz && \
   tar xzf /tmp/ots.tar.gz -C /var/lib/onetime --strip-components=1 && \
   rm /tmp/ots.tar.gz && \
   cd /var/lib/onetime && \
